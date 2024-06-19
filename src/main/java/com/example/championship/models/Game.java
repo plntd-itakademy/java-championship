@@ -1,7 +1,6 @@
 package com.example.championship.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "game")
