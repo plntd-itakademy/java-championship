@@ -4,57 +4,54 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
+
+import java.util.Date;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotNull(message = "Le champ prénom ne peut pas être null")
-    @NotBlank(message = "Le champ prénom ne peut pas être vide")
+    @NotNull(message = "Le champ firstName ne doit être null")
+    @NotBlank(message = "Le champ firstName ne doit pas être vide")
     private String firstName;
 
-    @NotNull(message = "Le champ nom ne peut pas être null")
-    @NotBlank(message = "Le champ nom ne peut pas être vide")
+    @NotNull(message = "Le champ lastName ne doit être null")
+    @NotBlank(message = "Le champ lastName ne doit pas être vide")
     private String lastName;
 
-    @NotNull(message = "Le champ email ne peut pas être null")
-    @NotBlank(message = "Le champ email ne peut pas être vide")
-    @Email(message = "L'email doit être valide")
+    @NotNull(message = "Le champ email ne doit être null")
+    @NotBlank(message = "Le champ email ne doit pas être vide")
+    @Email(message = "Le champ email doit être valide")
     private String email;
 
-    @NotNull(message = "Le champ mot de passe ne peut pas être null")
-    @NotBlank(message = "Le champ mot de passe ne peut pas être vide")
+    @NotNull(message = "Le champ password ne doit être null")
+    @NotBlank(message = "Le champ password ne doit pas être vide")
     private String password;
 
-    @NotNull(message = "Le champ ID de l'équipe ne peut pas être null")
-    private String teamId;
-
-    @NotNull(message = "Le champ date de création ne peut pas être null")
-    @Temporal(value = TemporalType.DATE)
-    private LocalDate creationDate;
+    @NotNull(message = "Le champ creationDate ne doit être null")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String teamId,
-            LocalDate creationDate) {
+    public User(String firstName, String lastName, String email, String password, Date creationDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.teamId = teamId;
         this.creationDate = creationDate;
     }
 
     // Getters and setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,19 +87,11 @@ public class User {
         this.password = password;
     }
 
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
-    }
-
-    public LocalDate getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 }

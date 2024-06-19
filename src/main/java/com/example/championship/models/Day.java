@@ -3,38 +3,33 @@ package com.example.championship.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity
+@Table(name = "day")
 public class Day {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotNull(message = "Le champ numéro ne peut pas être null")
-    @NotBlank(message = "Le champ numéro ne peut pas être vide")
+    @NotNull(message = "Le champ number ne doit être null")
+    @NotBlank(message = "Le champ number ne doit pas être vide")
     private String number;
 
-    @NotNull(message = "Le champ ID de championnat ne peut pas être null")
-    private int idChampionship;
+    @ManyToOne
+    @JoinColumn(name = "id_championship", nullable = false)
+    private Championship championship;
 
     @OneToMany(mappedBy = "day", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Game> games;
 
-    public Day() {
-    }
-
-    public Day(String number, int idChampionship) {
-        this.number = number;
-        this.idChampionship = idChampionship;
-    }
-
     // Getters and setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -46,12 +41,12 @@ public class Day {
         this.number = number;
     }
 
-    public int getIdChampionship() {
-        return idChampionship;
+    public Championship getChampionship() {
+        return championship;
     }
 
-    public void setIdChampionship(int idChampionship) {
-        this.idChampionship = idChampionship;
+    public void setChampionship(Championship championship) {
+        this.championship = championship;
     }
 
     public List<Game> getGames() {

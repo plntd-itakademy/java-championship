@@ -3,26 +3,28 @@ package com.example.championship.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "championship")
 public class Championship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotNull(message = "Le champ nom ne peut pas être null")
-    @NotBlank(message = "Le champ nom ne peut pas être vide")
+    @NotNull(message = "Le champ name ne doit être null")
+    @NotBlank(message = "Le champ name ne doit pas être vide")
     private String name;
 
-    @NotNull(message = "Le champ date de début ne peut pas être null")
-    @Temporal(value = TemporalType.DATE)
-    private LocalDate startDate;
+    @NotNull(message = "Le champ startDate ne doit être null")
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
 
-    @NotNull(message = "Le champ date de fin ne peut pas être null")
-    @Temporal(value = TemporalType.DATE)
-    private LocalDate endDate;
+    @NotNull(message = "Le champ endDate ne doit être null")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     private int wonPoint;
     private int lostPoint;
@@ -31,25 +33,16 @@ public class Championship {
     @OneToMany(mappedBy = "championship", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Day> days;
 
-    public Championship() {
-    }
-
-    public Championship(String name, LocalDate startDate, LocalDate endDate, int wonPoint, int lostPoint,
-            int drawPoint) {
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.wonPoint = wonPoint;
-        this.lostPoint = lostPoint;
-        this.drawPoint = drawPoint;
-    }
+    @ManyToMany
+    @JoinTable(name = "team_championship", joinColumns = @JoinColumn(name = "id_championship"), inverseJoinColumns = @JoinColumn(name = "id_team"))
+    private List<Team> teams;
 
     // Getters and setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,19 +54,19 @@ public class Championship {
         this.name = name;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -107,5 +100,13 @@ public class Championship {
 
     public void setDays(List<Day> days) {
         this.days = days;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }
