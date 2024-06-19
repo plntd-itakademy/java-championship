@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "day")
 public class Day {
@@ -18,7 +20,8 @@ public class Day {
     private String number;
 
     @ManyToOne
-    @JoinColumn(name = "id_championship", nullable = false)
+    @JoinColumn(name = "id_championship")
+    @JsonIgnore
     private Championship championship;
 
     @OneToMany(mappedBy = "day", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

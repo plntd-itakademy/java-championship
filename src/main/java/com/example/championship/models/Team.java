@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "team")
 public class Team {
@@ -22,7 +24,8 @@ public class Team {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
 
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany(mappedBy = "teams", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Championship> championships;
 
     @OneToMany(mappedBy = "team1", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
